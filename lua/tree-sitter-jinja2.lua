@@ -2,7 +2,7 @@ local M = {}
 
 
 local install_info = {
-  url = "~/code/tree-sitter-jinja2",
+  url = "https://github.com/geigerzaehler/tree-sitter-jinja2",
   files = { "src/parser.c" },
   branch = "main",
 }
