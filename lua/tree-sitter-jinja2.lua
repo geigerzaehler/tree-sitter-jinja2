@@ -1,15 +1,12 @@
 local M = {}
 
 function M.register_parser()
-  local ok, parsers = pcall(require, "nvim-treesitter.parsers")
-  if not ok then
-    return
-  end
+  local parsers = require("nvim-treesitter.parsers")
 
   -- Register the plugin path as a tree-sitter parser to nvim-treesitter.
   -- This is not required, but it allows nvim-treesitter to manage it e.g. :TS{Install,Update} jinja2
   local file = debug.getinfo(1).source:match("@(.*/)")
-  local plugin_dir = vim.fn.fnamemodify(file, ":p:h:h:h")
+  local plugin_dir = vim.fn.fnamemodify(file, ":p:h:h")
 
   --- @type ParserInfo[]
   local parser_config
@@ -21,7 +18,7 @@ function M.register_parser()
     parser_config = parsers
   end
 
-  if type(parser_config.ghostty) == "table" then
+  if type(parser_config.jinja2) == "table" then
     -- A jinja2 parser is already registered. Avoid overwriting it.
     return
   end
