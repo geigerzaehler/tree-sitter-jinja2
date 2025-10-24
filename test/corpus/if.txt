@@ -15,8 +15,10 @@ if statement
   (if_statement
     (expression)
     (text))
+  (text)
   (if_statement
     (expression)
+    (text)
     (else_statement
       (text))))
 
@@ -39,19 +41,28 @@ if statement wit elif
 (template
   (if_statement
     condition: (expression)
-    elif: (elif_statement
-      condition: (expression))
-    elif: (elif_statement
-      condition: (expression)))
-  (if_statement
-    condition: (expression)
+    body: (text)
     elif: (elif_statement
       condition: (expression)
-      (custom_statement
-        (custom_tag)))
+      (text))
     elif: (elif_statement
-      condition: (expression))
-    else: (else_statement)))
+      condition: (expression)
+      (text)))
+  (text)
+  (if_statement
+    condition: (expression)
+    body: (text)
+    elif: (elif_statement
+      condition: (expression)
+      (text)
+      (custom_statement
+        (custom_tag))
+      (text))
+    elif: (elif_statement
+      condition: (expression)
+      (text))
+    else: (else_statement
+      body: (text))))
 
 ================================================================================
 nested if
@@ -64,8 +75,10 @@ nested if
 (template
   (if_statement
     condition: (expression)
+    body: (text)
     body: (if_statement
-      condition: (expression))))
+      condition: (expression))
+    body: (text)))
 
 ================================================================================
 nested else
@@ -83,12 +96,15 @@ nested else
 (template
   (if_statement
     condition: (expression)
+    body: (text)
     else: (else_statement
+      body: (text)
       body: (if_statement
         condition: (expression)
         body: (text)
         else: (else_statement
-          body: (text))))))
+          body: (text)))
+      body: (text))))
 
 ================================================================================
 nested elif
@@ -112,18 +128,23 @@ nested elif
 (template
   (if_statement
     condition: (expression)
+    body: (text)
     elif: (elif_statement
       condition: (expression)
+      (text)
       (if_statement
         condition: (expression)
         body: (text)
         elif: (elif_statement
           condition: (expression)
-          (text))))
+          (text)))
+      (text))
     elif: (elif_statement
       condition: (expression)
+      (text)
       (if_statement
         condition: (expression)
         body: (text)
         else: (else_statement
-          body: (text))))))
+          body: (text)))
+      (text))))
