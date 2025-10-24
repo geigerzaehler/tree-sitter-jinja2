@@ -13,7 +13,9 @@ Hello {{ world }}!
     (expression))
   (text)
   (output)
+  (text)
   (output)
+  (text)
   (output
     (expression)))
 
@@ -54,25 +56,36 @@ Whitespace control
 (template
   (custom_statement
     (custom_tag))
+  (text)
   (custom_statement
     (custom_tag))
+  (text)
   (custom_statement
     (custom_tag))
+  (text)
   (custom_statement
     (custom_tag))
+  (text)
   (custom_statement
     (custom_tag))
+  (text)
   (custom_statement
     (custom_tag))
+  (text)
   (custom_statement
     (custom_tag))
+  (text)
   (custom_statement
     (custom_tag))
+  (text)
   (if_statement
     (expression)
+    (text)
     (elif_statement
-      (expression))
-    (else_statement)))
+      (expression)
+      (text))
+    (else_statement
+      (text))))
 
 ================================================================================
 for statement
@@ -88,7 +101,9 @@ bar
 
 (template
   (for_statement
-    iteration: (expression))
+    iteration: (expression)
+    body: (text))
+  (text)
   (for_statement
     iteration: (expression)
     body: (text)
@@ -108,12 +123,16 @@ include statement
 (template
   (include_statement
     (string))
+  (text)
   (include_statement
     (string))
+  (text)
   (include_statement
     (string))
+  (text)
   (include_statement
     (string))
+  (text)
   (include_statement
     (string)))
 
@@ -131,6 +150,7 @@ body
   (macro_statement
     signature: (expression)
     (text))
+  (text)
   (macro_statement
     signature: (expression)))
 
@@ -156,7 +176,8 @@ filter statement
 
 (template
   (filter_statement
-    (expression)))
+    (expression)
+    (text)))
 
 ================================================================================
 assignment statement
@@ -169,8 +190,10 @@ assignment statement
 (template
   (assignment_statement
     (expression))
+  (text)
   (assignment_statement
     (expression))
+  (text)
   (end_assignment_statement))
 
 ================================================================================
@@ -199,13 +222,17 @@ block statement
   (block_statement
     (identifier)
     (text))
+  (text)
   (block_statement
     (identifier)
     (identifier))
+  (text)
   (block_statement
     (identifier))
+  (text)
   (block_statement
     (identifier))
+  (text)
   (block_statement
     (identifier)))
 
@@ -224,18 +251,23 @@ import statement
   (import_statement
     (string)
     (identifier))
+  (text)
   (import_statement
     (string)
     (identifier))
+  (text)
   (import_statement
     (string)
     (identifier))
+  (text)
   (import_statement
     (string)
     (identifier))
+  (text)
   (import_statement
     (string)
     (identifier))
+  (text)
   (import_statement
     (string)
     (identifier)
@@ -256,8 +288,10 @@ asdfj
 (template
   (with_statement
     (text))
+  (text)
   (with_statement
-    assignment: (expression)))
+    assignment: (expression)
+    (text)))
 
 ================================================================================
 raw statement
@@ -283,6 +317,7 @@ custom tag statement
 (template
   (custom_statement
     (custom_tag))
+  (text)
   (custom_statement
     (custom_tag)))
 
@@ -311,22 +346,38 @@ nest deep
 (template
   (if_statement
     condition: (expression)
+    body: (text)
     body: (for_statement
       iteration: (expression)
+      body: (text)
       body: (macro_statement
         signature: (expression)
+        (text)
         (with_statement
+          (text)
           (call_statement
             call: (expression)
+            (text)
             (block_statement
               id: (identifier)
+              (text)
               (custom_statement
-                (custom_tag))))
+                (custom_tag))
+              (text))
+            (text))
+          (text)
           (custom_statement
-            (custom_tag)))
+            (custom_tag))
+          (text))
+        (text)
         (custom_statement
-          (custom_tag)))
+          (custom_tag))
+        (text))
+      body: (text)
       body: (custom_statement
-        (custom_tag)))
+        (custom_tag))
+      body: (text))
+    body: (text)
     body: (custom_statement
-      (custom_tag))))
+      (custom_tag))
+    body: (text)))

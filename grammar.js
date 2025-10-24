@@ -40,7 +40,7 @@ module.exports = grammar({
 
     text: (_) =>
       prec.right(
-        repeat1(choice(token(prec(-1, /\{/)), token(prec(1, /[^\s\{][^\{]*/)))),
+        repeat1(choice(token(prec(-1, /\{/)), token(prec(1, /[^\{]+/)))),
       ),
 
     comment: () => seq("{#", repeat(/[^\#]+|[\#]/), "#}"),
