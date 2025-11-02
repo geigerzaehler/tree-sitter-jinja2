@@ -38,3 +38,6 @@ __pycache__
 *.obj
 *.o
 log.html
+
+# Neovim parser
+/parser

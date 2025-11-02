@@ -27,6 +27,9 @@ INCLUDEDIR ?= $(PREFIX)/include
 LIBDIR ?= $(PREFIX)/lib
 PCLIBDIR ?= $(LIBDIR)/pkgconfig
 
+# Where to install the parser for Neovim to find it
+NVIMPARSERDIR ?= parser
+
 # object files
 OBJS := $(patsubst %.c,%.o,$(wildcard $(SRC_DIR)/*.c))
 
@@ -84,6 +87,11 @@ $(LANGUAGE_NAME).pc: bindings/c/$(LANGUAGE_NAME).pc.in
 $(SRC_DIR)/parser.c: grammar.js
 	$(TS) generate --no-bindings
 
+# Make the parser available to Neovim if this repo is used as a Neovim plugin
+$(NVIMPARSERDIR)/jinja2.$(SOEXT): lib$(LANGUAGE_NAME).$(SOEXT)
+	mkdir -p $(@D)
+	ln -sf ../$< $@
+
 install: all
 	install -d '$(DESTDIR)$(INCLUDEDIR)'/tree_sitter '$(DESTDIR)$(PCLIBDIR)' '$(DESTDIR)$(LIBDIR)'
 	install -m644 bindings/c/$(LANGUAGE_NAME).h '$(DESTDIR)$(INCLUDEDIR)'/tree_sitter/$(LANGUAGE_NAME).h
@@ -92,6 +100,8 @@ install: all
 	install -m755 lib$(LANGUAGE_NAME).$(SOEXT) '$(DESTDIR)$(LIBDIR)'/lib$(LANGUAGE_NAME).$(SOEXTVER)
 	ln -sf lib$(LANGUAGE_NAME).$(SOEXTVER) '$(DESTDIR)$(LIBDIR)'/lib$(LANGUAGE_NAME).$(SOEXTVER_MAJOR)
 	ln -sf lib$(LANGUAGE_NAME).$(SOEXTVER_MAJOR) '$(DESTDIR)$(LIBDIR)'/lib$(LANGUAGE_NAME).$(SOEXT)
+
+nvim-install: $(NVIMPARSERDIR)/jinja2.$(SOEXT)
 
 uninstall:
 	$(RM) '$(DESTDIR)$(LIBDIR)'/lib$(LANGUAGE_NAME).a \
@@ -103,8 +113,9 @@ uninstall:
 
 clean:
 	$(RM) $(OBJS) $(LANGUAGE_NAME).pc lib$(LANGUAGE_NAME).a lib$(LANGUAGE_NAME).$(SOEXT)
+	$(RM) -r $(NVIMPARSERDIR)
 
 test:
 	$(TS) test
 
-.PHONY: all install uninstall clean test
+.PHONY: all install nvim-install uninstall clean test
