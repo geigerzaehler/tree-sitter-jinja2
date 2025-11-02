@@ -16,8 +16,12 @@ With [lazy][]
 use { "geigerzaehler/tree-sitter-jinja2" }
 ```
 
-If you use a different package manager, run `:TSInstall! jinja2` after
-installing the plugin.
+You will have to compile the Tree-sitter parser on your machine.  This requires
+all the dependencies necessary for compiling Tree-sitter grammars in general.
+
+```sh
+make nvim-install
+```
 
 The plugin defines the filetype `jinja2` for files with the extensions `.j2`,
 `.jinja`, `.jinja2`.
