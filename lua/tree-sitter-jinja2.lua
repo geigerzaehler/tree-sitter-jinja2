@@ -1,40 +1,17 @@
 local M = {}
 
-function M.register_parser()
-  local parsers = require("nvim-treesitter.parsers")
-
-  -- Register the plugin path as a tree-sitter parser to nvim-treesitter.
-  -- This is not required, but it allows nvim-treesitter to manage it e.g. :TS{Install,Update} jinja2
-  local file = debug.getinfo(1).source:match("@(.*/)")
-  local plugin_dir = vim.fn.fnamemodify(file, ":p:h:h")
-
-  --- @type ParserInfo[]
-  local parser_config
-
-  if type(parsers.get_parser_configs) == "function" then
-    parser_config = parsers.get_parser_configs()
-  else
-    -- "nvim-treesitter.parsers" exports the parser table itself starting nvim-treesitter v1.x
-    parser_config = parsers
+function M.setup()
+  -- htmljinja is its own language backed by the jinja2 parser, so it loads
+  -- queries/htmljinja/ (which injects html into template text). Registering
+  -- htmljinja as the jinja2 filetype instead would load queries/jinja2/ and
+  -- lose the html injection.
+  local parser = vim.api.nvim_get_runtime_file("parser/jinja2.so", false)[1]
+  if parser then
+    vim.treesitter.language.add(
+      "htmljinja",
+      { path = parser, symbol_name = "jinja2" }
+    )
   end
-
-  parser_config.jinja2 = {
-    install_info = {
-      url = plugin_dir,
-      files = { "src/parser.c" },
-      branch = "main",
-    },
-    filetype = "jinja2",
-  }
-end
-
-function M.init()
-  M.register_parser()
-
-  vim.treesitter.language.add("htmljinja", {
-    path = vim.api.nvim_get_runtime_file("parser/jinja2.so", false)[1],
-    symbol_name = "jinja2",
-  })
 
   vim.filetype.add({
     extension = {
@@ -48,6 +25,13 @@ function M.init()
       [".*%.html%.jinja"] = "htmljinja",
       [".*%.html%.jinja2"] = "htmljinja",
     },
+  })
+
+  vim.api.nvim_create_autocmd("FileType", {
+    pattern = { "jinja2", "htmljinja" },
+    callback = function()
+      vim.treesitter.start()
+    end,
   })
 end
 

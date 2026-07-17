@@ -1,3 +1,5 @@
+/parser
+
 # Rust artifacts
 Cargo.lock
 target/
