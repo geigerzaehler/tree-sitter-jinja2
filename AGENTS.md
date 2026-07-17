@@ -4,7 +4,7 @@ This file provides guidance to coding agents when working with code in this repo
 
 ## Commands
 
-- `npm run build` — regenerate `src/parser.c` from `grammar.js` (`tree-sitter generate --no-bindings`). Run after every grammar edit.
+- `npm run build` — regenerate `src/parser.c` from `grammar.js` (`tree-sitter generate`). Run after every grammar edit.
 - `npm test` / `make test` — run the corpus tests (`tree-sitter test`).
 - Run a single test: `tree-sitter test -f '<test name>'` (the name is the header above the `===` divider in a corpus file).
 - `./watch.sh` — regenerate + test on save (watches `grammar.js`, `test/corpus`, `queries` via `nodemon.json`).

@@ -29,7 +29,7 @@ function context_specifier() {
   return choice(keyword("with context"), keyword("without context"));
 }
 
-module.exports = grammar({
+export default grammar({
   name: "jinja2",
   word: ($) => $.identifier,
   conflicts: ($) => [[$.elif_statement]],
